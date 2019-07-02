@@ -7,8 +7,8 @@
             </p>
         </div>
         <div>
-            <input class="input-text" type="text" name="ListItem" data-com.agilebits.onepassword.user-edited="yes">
-            <div id="button">Add</div>
+            <input v-model="title" class="input-text" type="text" name="ListItem" data-com.agilebits.onepassword.user-edited="yes">
+            <div id="button" @click="addTodo(title)">Add</div>
         </div>
         <br>
         <ol>
@@ -43,11 +43,16 @@
             return {
                 todoList: store.fetchTodos(),
                 filterTypes: ['all', 'active', 'completed'],
-                selectedFilterType: 'all'
+                selectedFilterType: 'all',
+                title: ''
             }
         },
 
         methods: {
+            addTodo: function(title) {
+                store.addTodo(title);
+                this.todoList = store.fetchTodos();
+            },
             filterByType: function (selectedFilterType) {
                 this.selectedFilterType = selectedFilterType;
                 if (selectedFilterType === 'all') {

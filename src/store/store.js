@@ -17,4 +17,9 @@ export default {
         return this.data.todos;
     },
 
+    addTodo(title) {
+        // add logic
+        this.data.todos.push({title, completed: false})
+    },
+
 }
