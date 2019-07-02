@@ -12,20 +12,17 @@
         </div>
         <br>
         <ol>
-            <li :key="todo.title" v-for="todo in store.fetchTodos()" :class="{checked: todo.completed}">
+            <li :key="todo.title" v-for="todo in todoList" :class="{checked: todo.completed}">
                 <input name="done-todo" type="checkbox" class="done-todo" :checked="todo.completed"> {{todo.title}}
             </li>
         </ol>
         <div>
             <ul id="filters">
-                <li>
-                    <a href="#" data-filter="all" class="selected">ALL</a>
-                </li>
-                <li>
-                    <a href="#" data-filter="active" class="">Active</a>
-                </li>
-                <li>
-                    <a href="#" data-filter="complete" class="">Complete</a>
+                <li :key="filterType" v-for="filterType in filterTypes">
+                    <a href="#" :data-filter="filterType" :class="{selected: filterType === selectedFilterType}"
+                       @click="selectedFilterType=filterType">
+                        {{filterType}}
+                    </a>
                 </li>
             </ul>
 
@@ -44,9 +41,11 @@
         },
         data() {
             return {
-                store,
+                todoList: store.fetchTodos(),
+                filterTypes: ['all', 'active', 'completed'],
+                selectedFilterType: 'all'
             }
-        }
+        },
     }
 </script>
 
@@ -139,6 +138,10 @@
         padding: 8px;
         list-style: none;
         outline: none;
+    }
+
+    #filters li a {
+        text-transform: capitalize;
     }
 
     .checked {
