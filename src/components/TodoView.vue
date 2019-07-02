@@ -13,7 +13,7 @@
         <br>
         <ol>
             <li :key="todo.title" v-for="todo in todoList" :class="{checked: todo.completed}">
-                <input name="done-todo" type="checkbox" class="done-todo" :checked="todo.completed"> {{todo.title}}
+                <input name="done-todo" type="checkbox" class="done-todo" :checked="todo.completed" @click="toggleTodo(todo)"> {{todo.title}}
             </li>
         </ol>
         <div>
@@ -53,6 +53,11 @@
                 store.addTodo(title);
                 this.todoList = store.fetchTodos();
             },
+
+            toggleTodo: function(todo) {
+                todo.completed = !todo.completed;
+            },
+
             filterByType: function (selectedFilterType) {
                 this.selectedFilterType = selectedFilterType;
                 if (selectedFilterType === 'all') {
