@@ -19,8 +19,8 @@
         <div>
             <ul id="filters">
                 <li :key="filterType" v-for="filterType in filterTypes">
-                    <a href="#" :data-filter="filterType" :class="{selected: filterType === selectedFilterType}"
-                       @click="selectedFilterType=filterType">
+                    <a href="javascript:void(0)" :data-filter="filterType" :class="{selected: filterType === selectedFilterType}"
+                       @click="filterByType(filterType)">
                         {{filterType}}
                     </a>
                 </li>
@@ -44,6 +44,17 @@
                 todoList: store.fetchTodos(),
                 filterTypes: ['all', 'active', 'completed'],
                 selectedFilterType: 'all'
+            }
+        },
+
+        methods: {
+            filterByType: function (selectedFilterType) {
+                this.selectedFilterType = selectedFilterType;
+                if (selectedFilterType === 'all') {
+                    this.todoList = store.fetchTodos();
+                    return;
+                }
+                this.todoList = selectedFilterType === 'active' ? store.fetchTodos().filter(todo => !todo.completed) : store.fetchTodos().filter(todo => todo.completed);
             }
         },
     }
