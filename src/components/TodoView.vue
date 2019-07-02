@@ -7,19 +7,29 @@
             </p>
         </div>
         <div>
-            <input v-model="title" class="input-text" type="text" name="ListItem" data-com.agilebits.onepassword.user-edited="yes">
-            <div id="button" @click="addTodo(title)">Add</div>
+            <input v-model="addedTitle" class="input-text" type="text" name="ListItem"
+                   data-com.agilebits.onepassword.user-edited="yes">
+            <div id="button" @click="addTodo(addedTitle)">Add</div>
         </div>
         <br>
         <ol>
-            <li :key="todo.title" v-for="todo in todoList" :class="{checked: todo.completed}">
-                <input name="done-todo" type="checkbox" class="done-todo" :checked="todo.completed" @click="toggleTodo(todo)"> {{todo.title}}
+            <li :key="todo.title" v-for="(todo, index) in todoList" :class="{checked: todo.completed}"
+                @dblclick="editTodo(index, todo.title)">
+                <input name="done-todo" type="checkbox" class="done-todo" :checked="todo.completed"
+                       @click="toggleTodo(todo)">
+                {{editedTodoIndex!==index ? todo.title : ""}}
+                <input type="text"
+                       class="input-text"
+                       v-model="editedTitle"
+                       v-if="editedTodoIndex === index"
+                       @blur="saveEditedTodo(todo, editedTitle)">
             </li>
         </ol>
         <div>
             <ul id="filters">
                 <li :key="filterType" v-for="filterType in filterTypes">
-                    <a href="javascript:void(0)" :data-filter="filterType" :class="{selected: filterType === selectedFilterType}"
+                    <a href="javascript:void(0)" :data-filter="filterType"
+                       :class="{selected: filterType === selectedFilterType}"
                        @click="filterByType(filterType)">
                         {{filterType}}
                     </a>
@@ -44,18 +54,31 @@
                 todoList: store.fetchTodos(),
                 filterTypes: ['all', 'active', 'completed'],
                 selectedFilterType: 'all',
-                title: ''
+                addedTitle: '',
+                editedTitle: '',
+                editedTodoIndex: -1,
             }
         },
 
         methods: {
-            addTodo: function(title) {
+            addTodo: function (title) {
                 store.addTodo(title);
                 this.todoList = store.fetchTodos();
             },
 
-            toggleTodo: function(todo) {
+            toggleTodo: function (todo) {
                 todo.completed = !todo.completed;
+            },
+
+            saveEditedTodo: function (todo, title) {
+                todo.title = title;
+                this.editedTodoIndex = -1;
+                this.editedTitle = '';
+            },
+
+            editTodo: function (index, title) {
+                this.editedTitle = title;
+                this.editedTodoIndex = index
             },
 
             filterByType: function (selectedFilterType) {
