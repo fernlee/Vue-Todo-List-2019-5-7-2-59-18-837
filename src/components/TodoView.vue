@@ -22,7 +22,7 @@
                        class="input-text"
                        v-model="editedContent"
                        v-if="editedTodoIndex === index"
-                       @blur="updateTodocontent(index, editedContent)">
+                       @blur="updateTodoContent(index, editedContent)">
             </li>
         </ol>
         <div>
@@ -59,6 +59,10 @@
             }
         },
 
+        created() {
+            store.dispatch('fetchTodos');
+        },
+
         methods: {
             addTodo: function (content) {
                 store.dispatch("addTodo", {content});
@@ -73,8 +77,8 @@
                 }
             },
 
-            updateTodocontent: function (index, content) {
-                store.commit("updateTodocontent", {index, content});
+            updateTodoContent: function (index, content) {
+                store.commit("updateTodoContent", {index, content});
                 this.editedTodoIndex = -1;
                 this.editedContent = '';
             },
