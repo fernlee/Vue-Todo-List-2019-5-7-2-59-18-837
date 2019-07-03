@@ -74,7 +74,7 @@
             },
 
             updateTodo: function (todo) {
-                store.commit("updateTodo", todo);
+                store.dispatch("updateTodo", todo);
                 this.editedTodoIndex = -1;
                 this.editedContent = '';
             },

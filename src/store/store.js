@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex';
-import {add, fetchTodos} from '../api/todos';
+import {add, update, fetchTodos} from '../api/todos';
 
 Vue.use(Vuex);
 
@@ -20,7 +20,7 @@ export default new Vuex.Store({
             state.todos[payload.index].status = payload.status;
         },
         updateTodo(state, payload) {
-            state.todos[payload.id-1] = payload;
+            state.todos[payload.id-1].content = payload.content;
         },
     },
     actions: {
@@ -33,6 +33,11 @@ export default new Vuex.Store({
             add(payload).then(() => {
                 commit('addTodo', payload);
             }).catch(error => console.log(error.statusText))
-        }
+        },
+        updateTodo({commit}, payload) {
+            update(payload.id, payload).then(() => {
+                commit('updateTodo', payload);
+            }).catch(error => console.log(error.statusText))
+        },
     }
 })

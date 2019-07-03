@@ -17,8 +17,8 @@ export function add(data) {
 
 export function update(id, data) {
     return request({
-        url: `/agents/${id}`,
-        method: 'PUT',
+        url: `/todos/${id}`,
+        method: 'put',
         data
     })
 }
