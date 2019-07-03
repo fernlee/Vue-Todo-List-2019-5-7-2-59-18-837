@@ -1,22 +1,32 @@
 <template>
-    <p>
+    <div>
         <router-link to="/home">开始使用</router-link>
         <label>
             请输入姓名
-            <input/>
+            <input v-model="userName"
+                   @blur="updateUserName"/>
         </label>
-
-    </p>
+    </div>
 </template>
 
 <script>
     export default {
-        name: "Main"
+        name: "Main",
+        data() {
+            return {
+                userName: '',
+            }
+        },
+        methods: {
+            updateUserName() {
+                this.$store.commit('updateUserName', this.userName);
+            }
+        }
     }
 </script>
 
 <style scoped>
-    p {
+    div {
         text-align: center;
     }
 

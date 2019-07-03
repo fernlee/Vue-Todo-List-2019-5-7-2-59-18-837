@@ -40,8 +40,6 @@
 </template>
 
 <script>
-    import store from "../store/store.js";
-
     export default {
         name: 'TodoView',
         props: {
@@ -58,17 +56,17 @@
         },
 
         created() {
-            store.dispatch('fetchTodos');
+            this.$store.dispatch('fetchTodos');
         },
 
         methods: {
             addTodo: function (content) {
-                store.dispatch("addTodo", {content});
+                this.$store.dispatch("addTodo", {content});
                 this.addedContent = '';
             },
 
             updateTodo: function (todo) {
-                store.dispatch("updateTodo", todo);
+                this.$store.dispatch("updateTodo", todo);
                 this.editedTodoIndex = -1;
                 this.editedContent = '';
             },
@@ -80,7 +78,7 @@
         },
         computed: {
             todoList() {
-                const todos = store.state.todos;
+                const todos = this.$store.state.todos;
                 if (this.selectedFilterType === 'all') {
                     return todos;
                 }

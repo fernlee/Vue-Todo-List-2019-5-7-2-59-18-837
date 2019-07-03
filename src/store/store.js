@@ -6,7 +6,8 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
-        todos: []
+        todos: [],
+        userName: ''
     },
     mutations: {
         fetchTodos(state, todos) {
@@ -19,6 +20,9 @@ export default new Vuex.Store({
 
         updateTodo(state, payload) {
             Vue.set(state.todos, payload.id-1, payload);
+        },
+        updateUserName(state, userName) {
+            state.userName = userName;
         },
     },
     actions: {
