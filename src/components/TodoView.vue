@@ -51,7 +51,7 @@
         },
         data() {
             return {
-                todoList: store.fetchTodos(),
+                todoList: store.state.todos,
                 filterTypes: ['all', 'active', 'completed'],
                 selectedFilterType: 'all',
                 addedTitle: '',
@@ -62,8 +62,8 @@
 
         methods: {
             addTodo: function (title) {
-                store.addTodo(title);
-                this.todoList = store.fetchTodos();
+                store.commit("addTodo", {title});
+                this.todoList = store.state.todos;
             },
 
             toggleTodo: function (todo) {
@@ -84,10 +84,10 @@
             filterByType: function (selectedFilterType) {
                 this.selectedFilterType = selectedFilterType;
                 if (selectedFilterType === 'all') {
-                    this.todoList = store.fetchTodos();
+                    this.todoList = store.state.todos;
                     return;
                 }
-                this.todoList = selectedFilterType === 'active' ? store.fetchTodos().filter(todo => !todo.completed) : store.fetchTodos().filter(todo => todo.completed);
+                this.todoList = selectedFilterType === 'active' ? store.state.todos.filter(todo => !todo.completed) : store.state.todos.filter(todo => todo.completed);
             }
         },
     }

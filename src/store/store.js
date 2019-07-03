@@ -1,5 +1,9 @@
-export default {
-    data: {
+import Vue from 'vue'
+import Vuex from 'vuex';
+Vue.use(Vuex);
+
+export default new Vuex.Store({
+    state: {
         todos: [
             {title: 'Parking Lot APP Refactor', completed: false},
             {title: 'Parking Lot APP 时序图', completed: true},
@@ -9,17 +13,9 @@ export default {
             {title: '总结TDD和Mock的应用经验', completed: false},
         ]
     },
-
-    // Methods that you need, for e.g fetching data from server etc.
-
-    fetchTodos() {
-        // fetch logic
-        return this.data.todos;
-    },
-
-    addTodo(title) {
-        // add logic
-        this.data.todos.push({title, completed: false})
-    },
-
-}
+    mutations: {
+        addTodo(state, payload) {
+            state.todos.push({title: payload.title, completed: false})
+        },
+    }
+})
