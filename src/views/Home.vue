@@ -1,19 +1,17 @@
 <template>
     <div class="home_page">
         <router-link to="/">返回</router-link>
-        <div class="home_userName">{{userName}}</div>
-        <todo-view></todo-view>
+        <div class="home_userName">UserName: {{userName}}</div>
+        <side-bar></side-bar>
+        <router-view/>
     </div>
 </template>
 
 <script>
-    import TodoList from '../components/TodoList'
-
+    import SideBar from "../components/SideBar";
     export default {
         name: "Home",
-        components: {
-            TodoView: TodoList
-        },
+        components: {SideBar},
         data() {
             return { userName: this.$store.state.userName}
         }

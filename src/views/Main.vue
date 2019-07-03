@@ -1,6 +1,6 @@
 <template>
     <div>
-        <router-link to="/home">开始使用</router-link>
+        <router-link to="/home/todo">开始使用</router-link>
         <label>
             请输入姓名
             <input v-model="userName"
