@@ -16,7 +16,7 @@
             <li :key="todo.id" v-for="(todo, index) in todoList" :class="{checked: todo.status === 'completed'}"
                 @dblclick="editTodo(index, todo.content)">
                 <input name="done-todo" type="checkbox" class="done-todo" :checked="todo.status === 'completed'"
-                       @click="toggleTodo(index, todo)">
+                       @click="updateTodo({...todo, status: todo.status === 'active' ? 'completed' : 'active'})">
                 {{editedTodoIndex!==index ? todo.content : ""}}
                 <input type="text"
                        class="input-text"
@@ -67,10 +67,6 @@
             addTodo: function (content) {
                 store.dispatch("addTodo", {content});
                 this.addedContent = '';
-            },
-
-            toggleTodo: function (index, todo) {
-                store.dispatch("toggleTodo", {...todo, status: todo.status === "active" ? "completed" : "active"});
             },
 
             updateTodo: function (todo) {
