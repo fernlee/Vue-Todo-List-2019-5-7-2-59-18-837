@@ -13,7 +13,7 @@
         </div>
         <br>
         <ol>
-            <li :key="todo.content" v-for="(todo, index) in todoList" :class="{checked: todo.status === 'completed'}"
+            <li :key="todo.id" v-for="(todo, index) in todoList" :class="{checked: todo.status === 'completed'}"
                 @dblclick="editTodo(index, todo.content)">
                 <input name="done-todo" type="checkbox" class="done-todo" :checked="todo.status === 'completed'"
                        @click="toggleTodo(index, todo.status)">
@@ -22,7 +22,7 @@
                        class="input-text"
                        v-model="editedContent"
                        v-if="editedTodoIndex === index"
-                       @blur="updateTodoContent(index, editedContent)">
+                       @blur="updateTodo({ ...todo, content:editedContent})">
             </li>
         </ol>
         <div>
@@ -70,15 +70,11 @@
             },
 
             toggleTodo: function (index, status) {
-                if (status === "active") {
-                    store.commit("toggleTodo", {index, status: "completed"});
-                } else {
-                    store.commit("toggleTodo", {index, status: "active"});
-                }
+                store.commit("toggleTodo", {index, status: status === "active" ? "completed" : "active"});
             },
 
-            updateTodoContent: function (index, content) {
-                store.commit("updateTodoContent", {index, content});
+            updateTodo: function (todo) {
+                store.commit("updateTodo", todo);
                 this.editedTodoIndex = -1;
                 this.editedContent = '';
             },
@@ -94,7 +90,7 @@
                 if (this.selectedFilterType === 'all') {
                     return todos;
                 }
-                return  todos.filter(todo => todo.status === this.selectedFilterType);
+                return todos.filter(todo => todo.status === this.selectedFilterType);
             }
         }
     }

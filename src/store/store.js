@@ -19,8 +19,8 @@ export default new Vuex.Store({
         toggleTodo(state, payload) {
             state.todos[payload.index].status = payload.status;
         },
-        updateTodoContent(state, payload) {
-            state.todos[payload.index].content = payload.content;
+        updateTodo(state, payload) {
+            state.todos[payload.id-1] = payload;
         },
     },
     actions: {
