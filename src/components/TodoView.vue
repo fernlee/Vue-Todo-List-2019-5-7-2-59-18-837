@@ -82,10 +82,11 @@
         },
         computed: {
             todoList() {
+                const todos = store.state.todos;
                 if (this.selectedFilterType === 'all') {
-                    return store.state.todos;
+                    return todos;
                 }
-                return this.selectedFilterType === 'active' ? store.state.todos.filter(todo => !todo.completed) : store.state.todos.filter(todo => todo.completed);
+                return this.selectedFilterType === 'active' ? todos.filter(todo => !todo.completed) : todos.filter(todo => todo.completed);
             }
         }
     }
