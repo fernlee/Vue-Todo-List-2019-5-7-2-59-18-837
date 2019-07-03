@@ -7,22 +7,22 @@
             </p>
         </div>
         <div>
-            <input v-model="addedTitle" class="input-text" type="text" name="ListItem"
+            <input v-model="addedContent" class="input-text" type="text" name="ListItem"
                    data-com.agilebits.onepassword.user-edited="yes">
-            <div id="button" @click="addTodo(addedTitle)">Add</div>
+            <div id="button" @click="addTodo(addedContent)">Add</div>
         </div>
         <br>
         <ol>
-            <li :key="todo.title" v-for="(todo, index) in todoList" :class="{checked: todo.completed}"
-                @dblclick="editTodo(index, todo.title)">
-                <input name="done-todo" type="checkbox" class="done-todo" :checked="todo.completed"
-                       @click="toggleTodo(index, todo.completed)">
-                {{editedTodoIndex!==index ? todo.title : ""}}
+            <li :key="todo.content" v-for="(todo, index) in todoList" :class="{checked: todo.status === 'completed'}"
+                @dblclick="editTodo(index, todo.content)">
+                <input name="done-todo" type="checkbox" class="done-todo" :checked="todo.status === 'completed'"
+                       @click="toggleTodo(index, todo.status)">
+                {{editedTodoIndex!==index ? todo.content : ""}}
                 <input type="text"
                        class="input-text"
-                       v-model="editedTitle"
+                       v-model="editedContent"
                        v-if="editedTodoIndex === index"
-                       @blur="updateTodoTitle(index, editedTitle)">
+                       @blur="updateTodocontent(index, editedContent)">
             </li>
         </ol>
         <div>
@@ -53,30 +53,34 @@
             return {
                 filterTypes: ['all', 'active', 'completed'],
                 selectedFilterType: 'all',
-                addedTitle: '',
-                editedTitle: '',
+                addedContent: '',
+                editedContent: '',
                 editedTodoIndex: -1,
             }
         },
 
         methods: {
-            addTodo: function (title) {
-                store.commit("addTodo", {title});
-                this.addedTitle = '';
+            addTodo: function (content) {
+                store.commit("addTodo", {content});
+                this.addedContent = '';
             },
 
-            toggleTodo: function (index, completed) {
-                store.commit("toggleTodo", {index, completed});
+            toggleTodo: function (index, status) {
+                if (status === "active") {
+                    store.commit("toggleTodo", {index, status: "completed"});
+                } else {
+                    store.commit("toggleTodo", {index, status: "active"});
+                }
             },
 
-            updateTodoTitle: function (index, title) {
-                store.commit("updateTodoTitle", {index, title});
+            updateTodocontent: function (index, content) {
+                store.commit("updateTodocontent", {index, content});
                 this.editedTodoIndex = -1;
-                this.editedTitle = '';
+                this.editedContent = '';
             },
 
-            editTodo: function (index, title) {
-                this.editedTitle = title;
+            editTodo: function (index, content) {
+                this.editedContent = content;
                 this.editedTodoIndex = index
             },
         },
@@ -86,7 +90,7 @@
                 if (this.selectedFilterType === 'all') {
                     return todos;
                 }
-                return this.selectedFilterType === 'active' ? todos.filter(todo => !todo.completed) : todos.filter(todo => todo.completed);
+                return  todos.filter(todo => todo.status === this.selectedFilterType);
             }
         }
     }
