@@ -17,5 +17,8 @@ export default new Vuex.Store({
         addTodo(state, payload) {
             state.todos.push({title: payload.title, completed: false})
         },
+        toggleTodo(state, payload) {
+            state.todos[payload.index].completed = !payload.completed;
+        },
     }
 })
