@@ -22,7 +22,7 @@
                        class="input-text"
                        v-model="editedTitle"
                        v-if="editedTodoIndex === index"
-                       @blur="saveEditedTodo(todo, editedTitle)">
+                       @blur="updateTodoTitle(index, editedTitle)">
             </li>
         </ol>
         <div>
@@ -69,8 +69,8 @@
                 store.commit("toggleTodo", {index, completed});
             },
 
-            saveEditedTodo: function (todo, title) {
-                todo.title = title;
+            updateTodoTitle: function (index, title) {
+                store.commit("updateTodoTitle", {index, title});
                 this.editedTodoIndex = -1;
                 this.editedTitle = '';
             },
