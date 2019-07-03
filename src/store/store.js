@@ -17,7 +17,7 @@ export default new Vuex.Store({
             state.todos.push(payload)
         },
         toggleTodo(state, payload) {
-            state.todos[payload.index].status = payload.status;
+            state.todos[payload.id-1].status = payload.status;
         },
         updateTodo(state, payload) {
             state.todos[payload.id-1].content = payload.content;
@@ -37,6 +37,12 @@ export default new Vuex.Store({
         updateTodo({commit}, payload) {
             update(payload.id, payload).then(() => {
                 commit('updateTodo', payload);
+            }).catch(error => console.log(error.statusText))
+        },
+
+        toggleTodo({commit}, payload) {
+            update(payload.id, payload).then(() => {
+                commit('toggleTodo', payload);
             }).catch(error => console.log(error.statusText))
         },
     }
