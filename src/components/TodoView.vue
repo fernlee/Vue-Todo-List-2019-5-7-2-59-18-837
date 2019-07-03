@@ -61,7 +61,7 @@
 
         methods: {
             addTodo: function (content) {
-                store.commit("addTodo", {content});
+                store.dispatch("addTodo", {content});
                 this.addedContent = '';
             },
 
