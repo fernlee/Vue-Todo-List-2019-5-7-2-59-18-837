@@ -62,6 +62,7 @@
         methods: {
             addTodo: function (title) {
                 store.commit("addTodo", {title});
+                this.addedTitle = '';
             },
 
             toggleTodo: function (todo) {
