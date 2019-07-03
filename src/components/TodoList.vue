@@ -35,9 +35,7 @@
                     </a>
                 </li>
             </ul>
-
         </div>
-
     </div>
 </template>
 
