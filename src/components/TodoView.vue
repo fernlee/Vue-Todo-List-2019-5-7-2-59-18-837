@@ -30,7 +30,7 @@
                 <li :key="filterType" v-for="filterType in filterTypes">
                     <a href="javascript:void(0)" :data-filter="filterType"
                        :class="{selected: filterType === selectedFilterType}"
-                       @click="filterByType(filterType)">
+                       @click="selectedFilterType=filterType">
                         {{filterType}}
                     </a>
                 </li>
@@ -51,7 +51,6 @@
         },
         data() {
             return {
-                todoList: store.state.todos,
                 filterTypes: ['all', 'active', 'completed'],
                 selectedFilterType: 'all',
                 addedTitle: '',
@@ -63,7 +62,6 @@
         methods: {
             addTodo: function (title) {
                 store.commit("addTodo", {title});
-                this.todoList = store.state.todos;
             },
 
             toggleTodo: function (todo) {
@@ -80,16 +78,15 @@
                 this.editedTitle = title;
                 this.editedTodoIndex = index
             },
-
-            filterByType: function (selectedFilterType) {
-                this.selectedFilterType = selectedFilterType;
-                if (selectedFilterType === 'all') {
-                    this.todoList = store.state.todos;
-                    return;
-                }
-                this.todoList = selectedFilterType === 'active' ? store.state.todos.filter(todo => !todo.completed) : store.state.todos.filter(todo => todo.completed);
-            }
         },
+        computed: {
+            todoList() {
+                if (this.selectedFilterType === 'all') {
+                    return store.state.todos;
+                }
+                return this.selectedFilterType === 'active' ? store.state.todos.filter(todo => !todo.completed) : store.state.todos.filter(todo => todo.completed);
+            }
+        }
     }
 </script>
 
